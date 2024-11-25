@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATS Resume Scorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .light {
+      background-color: #f9fafb;
+      color: #1f2937;
+    }
+    .dark {
+      background-color: #1f2937;
+      color: #f9fafb;
+    }
+    .light textarea {
+      background-color: white;
+      color: black;
+    }
+    .dark textarea {
+      background-color: #374151;
+      color: white;
+    }
+    .progress-bar {
+      transition: width 0.5s ease;
+    }
+  </style>
+</head>
+<body class="dark min-h-screen flex items-center justify-center px-4 transition">
+  <div class="container max-w-lg rounded-lg shadow-lg p-6 bg-gray-800" id="app-container">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-3xl font-bold text-green-400">ATS Resume Scorer</h1>
+      <button id="toggle-theme" class="py-1 px-3 bg-gray-600 text-white rounded-lg text-sm hover:bg-gray-500 transition">
+        Light Mode
+      </button>
+    </div>
+
+    <label for="job-description" class="block text-sm font-medium mb-2">Enter Job Description</label>
+    <textarea id="job-description" class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-green-500" rows="4" placeholder="Paste the job description here..."></textarea>
+
+    <div class="mt-6">
+      <label class="block text-sm font-medium mb-2">Upload Resume</label>
+      <div class="relative border-2 border-dashed rounded-lg p-4 text-center bg-gray-700">
+        <p class="text-sm">Drag and drop your resume or click to upload (PDF only, max 5 MB)</p>
+        <input type="file" id="resume-upload" class="absolute inset-0 opacity-0 cursor-pointer">
+      </div>
+      <p id="upload-feedback" class="text-sm mt-2"></p>
+    </div>
+
+    <button id="calculate-score" class="w-full mt-6 py-2 bg-green-500 hover:bg-green-400 text-gray-900 font-bold rounded-lg transition">
+      Analyze Resume
+    </button>
+
+    <div id="analysis" class="mt-6 hidden">
+      <h2 class="text-2xl font-semibold mb-4">Resume Analysis</h2>
+      <div class="flex justify-center">
+        <div class="relative">
+          <div id="progress-bar" class="rounded-full border-8 border-green-400 w-32 h-32 flex items-center justify-center">
+            <span id="score" class="text-3xl font-bold">0</span>
+          </div>
+        </div>
+      </div>
+      <p id="feedback" class="text-gray-300 mt-4"></p>
+      <button id="download-report" class="mt-4 py-2 px-4 bg-blue-500 hover:bg-blue-400 text-white rounded-lg transition">Download Report</button>
+    </div>
+  </div>
+
+  <script>
+    const uploadInput = document.getElementById('resume-upload');
+    const uploadFeedback = document.getElementById('upload-feedback');
+    const jobDescription = document.getElementById('job-description');
+    const calculateScoreButton = document.getElementById('calculate-score');
+    const analysisDiv = document.getElementById('analysis');
+    const progressBar = document.getElementById('progress-bar');
+    const scoreSpan = document.getElementById('score');
+    const feedbackDiv = document.getElementById('feedback');
+    const toggleThemeButton = document.getElementById('toggle-theme');
+    const appContainer = document.getElementById('app-container');
+    const downloadReportButton = document.getElementById('download-report');
+
+    let isLightMode = false;
+
+    // Theme toggle
+    toggleThemeButton.addEventListener('click', () => {
+      isLightMode = !isLightMode;
+      appContainer.className = isLightMode ? 'light container max-w-lg rounded-lg shadow-lg p-6' : 'dark container max-w-lg rounded-lg shadow-lg p-6';
+      toggleThemeButton.textContent = isLightMode ? 'Dark Mode' : 'Light Mode';
+    });
+
+    // File upload validation
+    uploadInput.addEventListener('change', () => {
+      const file = uploadInput.files[0];
+      if (!file) {
+        uploadFeedback.textContent = "No file selected.";
+        return;
+      }
+      if (file.type !== 'application/pdf') {
+        uploadFeedback.textContent = "Only PDF files are allowed.";
+        uploadInput.value = "";
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        uploadFeedback.textContent = "File size exceeds 5 MB.";
+        uploadInput.value = "";
+        return;
+      }
+      uploadFeedback.textContent = "The resume has been uploaded successfully.";
+    });
+
+    // Dummy score simulation
+    calculateScoreButton.addEventListener('click', () => {
+      if (!uploadInput.files.length) {
+        alert("Please upload a resume first.");
+        return;
+      }
+      analysisDiv.classList.remove('hidden');
+      let score = Math.floor(Math.random() * 101);
+      scoreSpan.textContent = score;
+      progressBar.style.borderColor = score > 50 ? 'green' : 'red';
+      feedbackDiv.textContent = "Strengths: Clear structure. Weaknesses: Missing job-specific skills.";
+    });
+
+    // Download report
+    downloadReportButton.addEventListener('click', () => {
+      const feedback = feedbackDiv.textContent;
+      const blob = new Blob([`Resume Score: ${scoreSpan.textContent}\n\n${feedback}`], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume_analysis.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  </script>
+</body>
+</html>
