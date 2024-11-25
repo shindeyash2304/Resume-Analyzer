@@ -1,0 +1,119 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #1f1f1f;
+  }
+  
+  .logo {
+    font-size: 24px;
+    color: #00ff7f;
+  }
+  
+  .theme-toggle {
+    padding: 8px 15px;
+    background-color: #00ff7f;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+  }
+  
+  .theme-toggle:hover {
+    transform: scale(1.05);
+  }
+  
+  main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .upload-area {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .drag-drop-box {
+    width: 300px;
+    height: 200px;
+    border: 3px dashed #00ff7f;
+    border-radius: 15px;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .drag-drop-box:hover {
+    background-color: #333333;
+  }
+  
+  .feedback {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .score-section {
+    text-align: center;
+  }
+  
+  .progress-circle {
+    margin: 20px auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 10px solid #00ff7f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #00ff7f;
+    font-size: 32px;
+  }
+  
+  .green-button {
+    padding: 10px 20px;
+    background-color: #00ff7f;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+  }
+  
+  .green-button:hover {
+    transform: scale(1.05);
+  }
+  
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1f1f1f;
+  }
+  
